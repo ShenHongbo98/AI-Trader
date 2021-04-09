@@ -61,5 +61,6 @@ Sharpe ratio is 2.12
 
 The final delivery is to obtain detailed data and trade strategy and an data visualize UI, shown as follows:
 
-![image](https://user-images.githubusercontent.com/77420718/114046948-d7b1eb80-98bb-11eb-94f8-eceee9059f8b.png)
+![image](https://user-images.githubusercontent.com/77420718/114167908-231ed500-9962-11eb-967b-5549b27f5ae6.png)
+
 
