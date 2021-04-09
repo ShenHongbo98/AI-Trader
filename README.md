@@ -49,7 +49,7 @@ Simulation on training BTCUSD datasets gets following outputs:
 
 ![image](https://user-images.githubusercontent.com/77420718/114051419-a804e280-98bf-11eb-8dd8-b25b41060cf7.png)
 
-Test with btcusd data from January 2020 - February 2021
+Test with BTCUSD data from January 2020 - February 2021 and get medium trading rate strategy:
 
 ![image](https://user-images.githubusercontent.com/77420718/114051863-1053c400-98c0-11eb-8685-26f6f07dfad2.png)
 
