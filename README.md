@@ -1,15 +1,17 @@
-Usage ：
+Usage ：
 
-Go into trading-bot-master folder in terminal and do pip3 install -r requirements.txt 
+Go into trading-bot-master folder in terminal and do pip3 install -r requirements.txt 
 
-After you install all related library Do
+pip install time
 
-python eval.py data/train.csv --model-name model_double-dqn_GOOG_50 --debug 
+After you install all related library do
 
-Then our model evaluation start
+python eval.py data/train.csv --model-name model_double-dqn_GOOG_50 --debug 
 
-Return to the previous folder for test-client 
+Then our model evaluation start
 
-Click on the index.html and open it in your browser. Make sure that you have VPN connection (Can't be used in China becuase of the restriction)
+Return to the previous folder for test-client 
 
-It is then ready to be used! Enjoy!
+Click on the index.html and open it in your browser. Make sure that you have VPN connection (Can't be used in China becuase of the restriction)
+
+It is then ready to be used! Enjoy!
