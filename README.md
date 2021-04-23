@@ -4,6 +4,8 @@ Go into trading-bot-master folder in terminal and do pip3 install -r 
 
 pip install time
 
+pip install h5py==2.10.0
+
 After you install all related library do
 
 python eval.py data/train.csv --model-name model_double-dqn_GOOG_50 --debug 
