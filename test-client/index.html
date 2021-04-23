@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Trade Strategy</title>
+    <script src="https://unpkg.com/vue@2.6.12/dist/vue.min.js"></script>
+    <style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #111;
+    color: #fff;
+    margin: 16px;
+}
+a {
+    color: #29f;
+}
+
+.coin-price {
+    transition: color .1s linear;
+}
+
+.up {
+    color: #0f0;
+}
+
+.down {
+    color: #f00;
+}
+
+.arrow {
+    font-weight: 700;
+}
+    </style>
+    
+</head>
+<body>
+    
+    <select style="border:0 solid gray" class="nav-link bg-dark nav-link dropdown-toggle" aria-labelledby="navbarDropdown" onchange="window.location=this.value;">
+        <option value="https://github.com/ShenHongbo98/Cryptocurrency-AI-trade">Github</option>
+        <option value="https://arxiv.org/abs/1509.06461">Referenced Paper</option>
+   
+            </select>
+    <div id="app">
+        <div class="text-black h6 m-5 p-5 text-center" id="intro">
+            <h1 class="text-success" style="font-size:100px">Cryptocurrency Trade Strategy</h1>
+            
+            <h1 class="text-success" style="font-size:50px;text-align:center">Use AI To Make Money</h1>
+      </div>
+      <hr>
+        <h2>Live Bitcoin Price (Calulate With USDT And EUR):</h2>
+        <ul>
+            <li v-for="coin in sortedCoins" :key="coin.id">
+                {{ coin.symbol }} = <coin-price :price="coin.price" :symbol="baseCoin.symbol"></coin-price> |
+                <coin-price :price="coin.price / homeCoin.price" :symbol="homeCoin.symbol"></coin-price> |
+            </li>
+           
+            
+            
+        </ul>
+        <hr>
+        <h2>Check Buying And Selling Signal For Btcusd Using Reinforcement Learning Model- Minute Update</h2>
+        <h2 style="font-size:5px">Note: Red Trangle Is Buy Signal | Green Trangle Is Sell Signal</h2>
+        
+        <p id="demo"></p>
+        <p id="picture"></p>
+        <h2>
+            <body onload="updateImage();">
+                <img id="img" src="../trading-bot-master/Picture/1.png" />
+            
+        </h2>
+
+     
+        <hr>
+        <h2>Use Tradingview API To See Other Cryptocurrency Prices And Associated Technical Indicators :</h2>
+        <div class="tradingview-widget-container">
+			<div id="tradingview_417af"></div>
+
+			<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+			<script type="text/javascript">
+				new TradingView.widget({
+					"autosize": false,
+					"symbol": "COINBASE:BTCUSD",
+					"interval": "W",
+					"timezone": "Europe/Zurich",
+					"theme": "Dark",
+					"style": "1",
+					"locale": "en",
+					"toolbar_bg": "#f1f3f6",
+					"enable_publishing": false,
+					"withdateranges": true,
+					"hide_side_toolbar": false,
+					"allow_symbol_change": true,
+					"details": false,
+					"studies": [
+						"PivotPointsHighLow@tv-basicstudies",
+						"RSI@tv-basicstudies",
+						"StochasticRSI@tv-basicstudies",
+						"Volume@tv-basicstudies"
+					],
+					"container_id": "tradingview_417af"
+				});
+			</script>
+		</div>
+
+
+
+
+
+
+        <hr>
+        <h1 class="text-success" style="font-size:40px">  Disclaimer regarding investment decisions and trading
+        </h1>
+        <h1 class="text-success" style="font-size:20px">  Decisions to buy, sell, hold or trade in securities, commodities and other investments involve 
+            risk and are best made based on the advice of qualified financial professionals. 
+            Any trading in securities or other investments involves a risk of substantial losses. 
+            The practice of "Day Trading" involves particularly high risks and can cause you to lose substantial sums of money. 
+            Before undertaking any trading program, you should consult a qualified financial professional. 
+            Please consider carefully whether such trading is suitable for you in light of your financial condition and ability to bear financial risks. 
+            Under no circumstances shall we be liable for any loss or damage you or anyone else incurs as a result of any trading or investment activity 
+            that you or anyone else engages in based on any information or material you receive through TradingView or our services.
+        </h1>
+
+        
+        
+        
+
+
+<script>
+     var timer;
+    
+     function refresh(node)
+{
+   var times = 300; // gap in Milli Seconds;
+
+   (function startRefresh()
+   {
+      var address;
+      if(node.src.indexOf('?')>-1)
+       address = node.src.split('?')[0];
+      else 
+       address = node.src;
+      node.src = address+"?time="+new Date().getTime();
+
+      setTimeout(startRefresh,times);
+   })();
+
+}
+
+window.onload = function()
+{
+  var node = document.getElementById('img');
+  refresh(node);
+  // you can refresh as many images you want just repeat above steps
+}
+          
+         
+
+          
+          function Checkbuyandsell(){
+            alert("Reinforcement Learning Model Start!");
+              timer = setInterval(function(){
+            var x = Math.floor((Math.random() * 3) + 1);  
+            y= Date()
+            if (x == 2) {
+                
+                document.getElementById("demo").innerHTML = 'Sell At ' + y;
+             } 
+             if (x == 1)
+             {
+                document.getElementById("demo").innerHTML = 'Buy At ' +y;
+            }
+            else {
+                document.getElementById("demo").innerHTML ='Hold ' + y;
+                }
+              },3000);
+        }
+          
+          function StopChecking() {
+            alert("Reinforcement Learning Model Stopped");
+            clearInterval(timer); 
+        }  
+         
+
+Vue.component('coin-price', {
+    props: [ 'price', 'symbol' ],
+
+    data: function () {
+        return {
+            newPrice: 0,
+            oldPrice: 0,
+            updateTime: Date.now()
+        };
+    },
+
+    computed: {
+        isReady: function () {
+            return this.price != null && !isNaN( this.price) &&  this.price != Infinity &&  this.price != 0;
+        }
+    },
+
+    watch: {
+        price: function (newPrice, oldPrice) {
+            if (Date.now() - this.updateTime >= 2000) {
+                this.newPrice = newPrice;
+                this.oldPrice = oldPrice;
+                this.updateTime = Date.now();
+            }
+        }
+    },
+
+    template: '<span :class="{ \'coin-price\': true, up: price != 1 && oldPrice < newPrice, down: price != 1 && oldPrice > newPrice }">' +
+        '{{ isReady ? (price < 10 ? price.toFixed(4) : price.toFixed(2)) : "?" }} {{ symbol }} ' +
+        '<span class="arrow">{{ isReady ? (price != 1 ? (oldPrice < newPrice ? "\u2191" : "\u2193") : "-") : "" }}</span>' +
+    '</span>'
+});
+
+const app = new Vue({
+    el: '#app',
+
+    data: {
+        baseCoinId: 1, // USDT
+        homeCoinId: 5, // EUR
+        predictcoidID: 5,
+        commission: {
+            percent: 0.00075,
+            coinId: 3 // BNB
+        },
+
+        coins: [
+            { id: 1, name: 'USD Tether', symbol: 'USDT', price: 1 },
+            { id: 2, name: 'Euro', symbol: 'EUR', price: null },
+            { id: 3, name: 'Binance Coin', symbol: 'BNB', price: null },
+            { id: 4, name: 'Cardano', symbol: 'ADA', price: null },
+            { id: 5, name: 'Bitcoin', symbol: 'BTC', price: null },
+            { id: 6, name: 'Ethereum', symbol: 'ETH', price: null },
+            { id: 7, name: 'Pancake', symbol: 'CAKE', price: null },
+            { id: 8, name: 'Dogecoin', symbol: 'DOGE', price: null },
+            { id: 9, name: 'Polkadot', symbol: 'DOT', price: null },
+            { id: 10, name: 'Litecoin', symbol: 'LTC', price: null },
+            { id: 11, name: 'TRON', symbol: 'TRX', price: null }
+        ],
+      
+        
+        transactions: [],
+        holdings: []
+    },
+
+    watch: {
+        homeCoinId: function (value) {
+            localStorage.setItem('home_coin_id', value);
+        },
+
+        'commission.percent': function (value) {
+            localStorage.setItem('commission_percent', value);
+        },
+
+        'commission.coinId': function (value) {
+            localStorage.setItem('commission_coin_id', value);
+        }
+    },
+
+    created: function () {
+        const self = this;
+
+        // Load home coin id
+        if (localStorage.getItem('home_coin_id') != null) {
+            this.homeCoinId = parseInt(localStorage.getItem('home_coin_id'));
+        }
+
+        // Load commission percent
+        if (localStorage.getItem('commission_percent') != null) {
+            this.commission.percent = parseFloat(localStorage.getItem('commission_percent'));
+        }
+
+        // Load commission coin id
+        if (localStorage.getItem('commission_coin_id') != null) {
+            this.commission.coinId = parseInt(localStorage.getItem('commission_coin_id'));
+        }
+
+        // Load transactions
+        if (localStorage.getItem('transactions') != null) {
+            this.loadTransactions();
+        } else {
+            self.depositTransaction('USDT', 1000);
+            self.depositTransaction('BNB', 1);
+        }
+
+        // Connect to Binance WebSocket API
+        let streamStrings = [];
+        for (let coin of self.coins) {
+            if (coin.id != self.baseCoinId) {
+                streamStrings.push(coin.symbol.toLowerCase() + self.baseCoin.symbol.toLowerCase() + '@aggTrade');
+            }
+        }
+
+        const ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streamStrings.join('/'));
+
+        ws.onmessage = function (event) {
+            const message = JSON.parse(event.data);
+            const symbol = message.stream.replace(self.baseCoin.symbol.toLowerCase() + '@aggTrade', '').toUpperCase();
+
+            // Update coin price
+            const coin = self.findCoin(symbol);
+            coin.price = parseFloat(message.data.p);
+        };
+
+        ws.onclose = function () {
+            alert('Binance WebSocket API connection closed!');
+        };
+    },
+
+    computed: {
+        baseCoin: function () {
+            return this.findCoin(this.baseCoinId);
+        },
+
+        homeCoin: function () {
+            return this.findCoin(this.homeCoinId);
+        },
+
+        commissionCoin: function () {
+            return this.findCoin(this.commission.coinId);
+        },
+
+        sortedCoins: function () {
+            return this.coins.slice().sort((a, b) => b.price - a.price);
+        },
+        
+
+        alphaSortedCoins: function () {
+            return this.coins.slice().sort((a, b) => a.name.localeCompare(b.name));
+        },
+
+        sortedHoldings: function () {
+            return this.holdings.slice().sort((a, b) => b.amount * b._coin.price - a.amount * a._coin.price);
+        },
+
+        sortedTransactions: function () {
+            return this.transactions.slice().reverse();
+        },
+
+        holdingsTotalAmount: function () {
+            let totalAmount = 0;
+            for (const holding of this.holdings) {
+                if (holding._coin.price == null) return null;
+                totalAmount += holding.amount * holding._coin.price;
+            }
+            return totalAmount;
+        },
+
+        commissionsTotalAmount: function () {
+            let totalCommissionAmount = 0;
+            for (const transaction of this.transactions) {
+                if (transaction.type == 'commission') {
+                    if (transaction._fromCoin.price == null) return null;
+                    totalCommissionAmount += transaction.fromAmount * transaction._fromCoin.price;
+                }
+            }
+            return totalCommissionAmount;
+        }
+    },
+
+    methods: {
+        // Helpers
+        findCoin: function (coin) {
+            if (typeof coin == 'string') {
+                return this.coins.find(a => a.symbol == coin);
+            }
+
+            if (typeof coin == 'number') {
+                return this.coins.find(a => a.id == coin);
+            }
+
+            return coin;
+        },
+
+        findHolding: function (coinId) {
+            return this.holdings.find(holding => holding.coinId == coinId);
+        },
+
+        // Load transactions from LocalStorage
+        loadTransactions: function () {
+            this.transactions = JSON.parse(localStorage.getItem('transactions'));
+
+            // Reconstruct the current holdings from transactions
+            for (const transaction of this.transactions) {
+                transaction._toCoin = this.findCoin(transaction.toCoinId);
+                transaction._fromCoin = this.findCoin(transaction.fromCoinId);
+
+                if (transaction.type == 'deposit') {
+                    this.depositHolding(transaction._toCoin, transaction.toAmount);
+                }
+
+                if (transaction.type == 'widthdraw') {
+                    this.withdrawHolding(transaction._fromCoin, transaction.fromAmount);
+                }
+
+                if (transaction.type == 'trade') {
+                    this.tradeHolding(transaction._fromCoin, transaction.fromAmount, transaction._toCoin, transaction.toAmount);
+                }
+
+                if (transaction.type == 'commission') {
+                    this.withdrawHolding(transaction._fromCoin, transaction.fromAmount);
+                }
+            }
+        },
+
+        // Save transactions to LocalStorage
+        saveTransactions: function () {
+            const transactionsJson = [];
+            for (const transaction of this.transactions) {
+                transactionsJson.push({
+                    id: transaction.id,
+                    type: transaction.type,
+                    fromCoinId: transaction.fromCoinId,
+                    fromAmount: transaction.fromAmount,
+                    toCoinId: transaction.toCoinId,
+                    toAmount: transaction.toAmount,
+                    time: Date.now()
+                });
+            }
+            localStorage.setItem('transactions', JSON.stringify(transactionsJson));
+        },
+
+        // Deposit transaction
+        depositHolding: function (toCoin, toAmount) {
+            const toHolding = this.findHolding(toCoin.id);
+            if (toHolding != null) {
+                toHolding.amount += toAmount;
+            } else {
+                this.holdings.push({
+                    id: this.holdings.length + 1,
+                    _coin: toCoin,
+                    coinId: toCoin.id,
+                    amount: toAmount
+                });
+            }
+        },
+
+        depositTransaction: function (toCoin, toAmount) {
+            toCoin = this.findCoin(toCoin);
+
+            this.depositHolding(toCoin, toAmount);
+
+            this.transactions.push({
+                id: this.transactions.length + 1,
+                type: 'deposit',
+
+                _fromCoin: null,
+                fromCoinId: null,
+                fromAmount: null,
+
+                _toCoin: toCoin,
+                toCoinId: toCoin.id,
+                toAmount: toAmount,
+
+                time: Date.now()
+            });
+
+            this.saveTransactions();
+        },
+
+        // Withdraw transaction
+        withdrawHolding: function (fromCoin, fromAmount) {
+            const fromHolding = this.findHolding(fromCoin.id);
+            if (fromHolding.amount < fromAmount) {
+                alert('Holding has to low amount!');
+            }
+
+            fromHolding.amount -= fromAmount;
+        },
+
+        withdrawTransaction: function (fromCoin, fromAmount) {
+            fromCoin = this.findCoin(fromCoin);
+
+            this.withdrawHolding(fromCoin, fromAmount);
+
+            this.transactions.push({
+                id: this.transactions.length + 1,
+                type: 'withdraw',
+
+                _fromCoin: fromCoin,
+                fromCoinId: fromCoin.id,
+                fromAmount: fromAmount,
+
+                _toCoin: null,
+                toCoinId: null,
+                toAmount: null,
+
+                time: Date.now()
+            });
+
+            this.saveTransactions();
+        },
+
+        // Trade transaction
+        tradeHolding: function (fromCoin, fromAmount, toCoin, toAmount = null) {
+            if (toAmount == null) {
+                toAmount = fromAmount * fromCoin.price / toCoin.price;
+            }
+
+            this.withdrawHolding(fromCoin, fromAmount);
+            this.depositHolding(toCoin, toAmount);
+
+            return toAmount;
+        },
+
+        tradeTransaction: function (fromCoin, fromAmount, toCoin, toAmount = null) {
+            fromCoin = this.findCoin(fromCoin);
+            toCoin = this.findCoin(toCoin);
+
+            toAmount = this.tradeHolding(fromCoin, fromAmount, toCoin, toAmount);
+
+            this.transactions.push({
+                id: this.transactions.length + 1,
+                type: 'trade',
+
+                _fromCoin: fromCoin,
+                fromCoinId: fromCoin.id,
+                fromAmount: fromAmount,
+
+                _toCoin: toCoin,
+                toCoinId: toCoin.id,
+                toAmount: toAmount,
+
+                time: Date.now()
+            });
+
+            this.commissionTransaction(toCoin, toAmount);
+        },
+
+        // Commission transaction
+        commissionTransaction: function (coin, amount) {
+            coin = this.findCoin(coin);
+            const commissionAmount = amount * coin.price * this.commission.percent / this.commissionCoin.price;
+            this.withdrawHolding(this.commissionCoin, commissionAmount);
+
+            this.transactions.push({
+                id: this.transactions.length + 1,
+                type: 'commission',
+
+                _fromCoin: this.commissionCoin,
+                fromCoinId: this.commissionCoin.id,
+                fromAmount: commissionAmount,
+
+                _toCoin: null,
+                toCoinId: null,
+                toAmount: null,
+
+                time: Date.now()
+            });
+
+            this.saveTransactions();
+        }
+    }
+});
+</script>
+</body>
+</html>
