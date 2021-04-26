@@ -161,29 +161,7 @@ window.onload = function()
          
 
           
-          function Checkbuyandsell(){
-            alert("Reinforcement Learning Model Start!");
-              timer = setInterval(function(){
-            var x = Math.floor((Math.random() * 3) + 1);  
-            y= Date()
-            if (x == 2) {
-                
-                document.getElementById("demo").innerHTML = 'Sell At ' + y;
-             } 
-             if (x == 1)
-             {
-                document.getElementById("demo").innerHTML = 'Buy At ' +y;
-            }
-            else {
-                document.getElementById("demo").innerHTML ='Hold ' + y;
-                }
-              },3000);
-        }
-          
-          function StopChecking() {
-            alert("Reinforcement Learning Model Stopped");
-            clearInterval(timer); 
-        }  
+         
          
 
 Vue.component('coin-price', {
