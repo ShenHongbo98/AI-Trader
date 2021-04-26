@@ -68,10 +68,16 @@ class Agent:
         """Creates the model
         """
         model = Sequential()
-        model.add(Dense(units=128, activation="relu", input_dim=self.state_size))
-        model.add(Dense(units=256, activation="relu"))
-        model.add(Dense(units=256, activation="relu"))
-        model.add(Dense(units=128, activation="relu"))
+        model.add(Dense(units=128, activation="glu", input_dim=self.state_size))
+        model.add(Dense(units=128, activation="glu"))
+        model.add(Dense(units=128, activation="glu"))
+        model.add(Dense(units=64, activation="glu"))
+        model.add(Dense(units=64, activation="glu"))
+        model.add(Dense(units=64, activation="glu"))
+        model.add(Dense(units=64, activation="glu"))
+        model.add(Dense(units=32, activation="glu"))
+        model.add(Dense(units=32, activation="glu"))
+      
         model.add(Dense(units=self.action_size))
 
         model.compile(loss=self.loss, optimizer=self.optimizer)
@@ -101,7 +107,7 @@ class Agent:
         """
         mini_batch = random.sample(self.memory, batch_size)
         X_train, y_train = [], []
-        
+
         # DQN
         if self.strategy == "dqn":
             for state, action, reward, next_state, done in mini_batch:
@@ -160,7 +166,7 @@ class Agent:
 
                 X_train.append(state[0])
                 y_train.append(q_values[0])
-                
+
         else:
             raise NotImplementedError()
 
